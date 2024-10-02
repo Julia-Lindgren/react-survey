@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import RadioButtons from './RadioButtons.jsx';
 import CheckBoxes from './CheckBoxes.jsx';
 
 
 
-function Form({ onSubmit }) {
+function Form({ onSubmit, currentAnswer, editMode}) {
     const [formData, setFormData] = useState({
         colorRating: '',
         timeSpent: [],
@@ -12,6 +12,12 @@ function Form({ onSubmit }) {
         username: '',
         email: ''
     });
+
+    useEffect(() => {
+        if (currentAnswer) {
+            setFormData(currentAnswer);
+        }
+    }, [currentAnswer]);
 
     const handleRadioChange = (e) => {
         setFormData((prevData) => ({
@@ -84,7 +90,7 @@ function Form({ onSubmit }) {
                 Leave us your email pretty please??
                 <input type="email" name="email" value={formData.email} onChange={handleInputChange} />
             </label>
-            <input className="form__submit" type="submit" value="Submit Survey!" />
+            <input className="form__submit" type="submit" value={editMode ? "Update Answer" : "Submit Survey!"} />
         </form>
     )
 }
